@@ -1,0 +1,12 @@
+/*放一個框框*/
+html,body{
+  height: 100%;
+  display: flex;
+  /*水平置中*/
+  justify-content: center;
+   /*垂直置中*/
+  align-items: center;
+}
+canvas{
+  border: 3px solid black;
+}
