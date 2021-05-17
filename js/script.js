@@ -2,7 +2,14 @@ var canvas = document.getElementById('mycanvas');
 var ctx = canvas.getContext('2d');
 canvas.width = 400
 canvas.height = 400
+
+var time=0
 function draw(){
+  time++
+  //清除畫布上的軌跡
+  ctx.clearRect(0,0,400,400) 
+  
+  //座標繪製
   ctx.beginPath
   for(var i=0;i<10;i++){
     let pos = i*50
@@ -25,30 +32,21 @@ function draw(){
   ctx.stroke()
  
   
-  //左城門
-  ctx.fillStyle = "#E4B165"
-  ctx.fillRect(50,200,50,150)
-  ctx.strokeRect(50,200,50,150)
-  //左城門上
-  ctx.fillStyle = "#2C728A"
-  ctx.fillRect(40,175,70,25)
-  ctx.strokeRect(40,175,70,25)
-  
   //右城門
-  ctx.fillStyle = "#E4B165"
-  ctx.fillRect(300,200,50,150)
-  ctx.strokeRect(300,200,50,150)
+  ctx.fillStyle = "#FFE4CA"
+  ctx.fillRect(300,100,50,250)
+  ctx.strokeRect(300,100,50,250)
   //右城門上
-  ctx.fillStyle = "#2C728A"
-  ctx.fillRect(290,175,70,25)
-  ctx.strokeRect(290,175,70,25)
+  ctx.fillStyle = "#BB3D00"
+  ctx.fillRect(290,100,70,25)
+  ctx.strokeRect(290,100,70,25)
   
   //拱門
   ctx.beginPath()
-  ctx.moveTo(100,250)
-  ctx.lineTo(300,250)
+  ctx.moveTo(75,200)
+  ctx.lineTo(325,200)
   ctx.lineTo(300,350)
-  ctx.lineTo(250,350)
+  ctx.lineTo(75,350)
   
   ctx.arc(200,350,50,Math.PI*2,Math.PI,true)
   
@@ -56,45 +54,66 @@ function draw(){
   ctx.lineTo(100,350)
   ctx.closePath()
   
-  ctx.fillStyle = "#945238"
+  ctx.fillStyle = "#FFE4CA"
   ctx.fill()
   ctx.strokeStyle = "black"
   ctx.stroke()
   
-  //方形主體
+  //拱門尖塔
   ctx.beginPath()
-    ctx.moveTo(150,125)
-    ctx.lineTo(250,125)
-    ctx.lineTo(250,250)
-    ctx.lineTo(150,250)
+    ctx.moveTo(75,200)
+    ctx.lineTo(200,100-mouse.y/10)
+    ctx.lineTo(325,200)
   ctx.closePath()
-  ctx.fillStyle = "#E4B165"
+  ctx.fillStyle = "#BB3D00"
   ctx.fill()
   ctx.strokeStyle = "black"
   ctx.stroke()
   
-  //三角形尖塔
-  ctx.beginPath()
-    ctx.moveTo(150,125)
-    ctx.lineTo(200,50)
-    ctx.lineTo(250,125)
-  ctx.closePath()
-  ctx.fillStyle = "#2C728A"
-  ctx.fill()
-  ctx.strokeStyle = "black"
-  ctx.stroke()
+   //車子的道路
+   ctx.fillStyle = "black"
+   ctx.fillRect(0,350,400,25)
   
-  //窗戶
-  ctx.beginPath()
-    ctx.arc(200,175,15,Math.PI*2,Math.PI,true)
-    ctx.lineTo(185,200)
-    ctx.lineTo(215,200)
-  ctx.closePath()
-    ctx.fillStyle = "white"
-  ctx.fill()
-  ctx.strokeStyle = "black"
-  ctx.stroke()
+   ctx.fillStyle = "white"
+   ctx.fillRect(0,355,400,13)
   
+  //車子
+  ctx.fillStyle="#D26900"
+    let carx = time%440-40
+    ctx.fillRect(carx,340,40,25)
+    ctx.strokeRect(carx,340,40,25)
+  
+    ctx.beginPath()
+    ctx.arc(carx+10,365,5,0,Math.PI*2)
+    ctx.arc(carx+30,365,5,0,Math.PI*2)
+  
+    ctx.fillStyle="black"
+    ctx.fill()
+    ctx.stroke()
+  
+
+
+  
+   //確認滑鼠事件有抓取到
+    ctx.beginPath()
+    ctx.arc(mouse.x,mouse.y,5,0,Math.PI*2)
+    ctx.fillStyle="black"
+    ctx.fill()
 }
 
-draw()
+//draw()
+
+//設定連續繪製
+setInterval(draw,30) 
+
+//定義變數為物件，x,y分別紀錄滑鼠位置
+var mouse = {
+  x: 0,
+  y: 0
+} 
+
+//事件監聽，取得滑鼠位置
+canvas.addEventListener("mousemove",function(evt){
+  mouse.x = evt.offsetX  //相對於畫布上的距離
+  mouse.y = evt.offsetY
+})
